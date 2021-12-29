@@ -125,3 +125,40 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+exports.checkAuth = async (req, res) => {
+  console.log(req.users);
+  try {
+    const id = req.users.id;
+    const dataUser = await user.findOne({
+      where: {
+        id,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "password"],
+      },
+    });
+
+    if (!dataUser) {
+      return res.status(404).send({
+        status: "failed",
+      });
+    }
+
+    res.status(200).send({
+      status: "success...",
+      data: {
+        user: {
+          id: dataUser.id,
+          fullname: dataUser.fullname,
+          email: dataUser.email,
+        },
+      },
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};

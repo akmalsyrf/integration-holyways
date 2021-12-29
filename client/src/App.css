@@ -1,0 +1,10 @@
+.bg-danger {
+  background-color: #c32424 !important;
+}
+.btn-danger {
+  background-color: #c32424 !important;
+  border-color: #c32424 !important;
+}
+.text-danger {
+  color: #c32424 !important;
+}

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 //components
 import NavBar from "./components/NavBar";
@@ -16,18 +18,44 @@ import ViewFund from "./pages/ViewFund";
 
 //context
 import PrivateRoute from "./context/PrivateRoute";
+import { UserContext } from "./context/UserContext";
+
+import { API, setAuthToken } from "./config/api";
+
+//check token in localstorage
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 function App() {
-  // const [state, dispatch] = useContext(UserContext);
-  // const token = window.sessionStorage.getItem("token");
-  // useEffect(() => {
-  //   console.log(token);
-  //   if (String(token) === "Authenticated") {
-  //     dispatch({ type: "AUTHENTICATED" });
-  //   } else {
-  //     return null;
-  //   }
-  // });
+  const [state, dispatch] = useContext(UserContext);
+
+  const checkUser = async () => {
+    try {
+      const response = await API.get("/check-auth");
+      console.log(response);
+      if (response.status == 404) {
+        return dispatch({
+          type: "AUTH_ERROR",
+        });
+      }
+
+      let payload = response.data.data.user;
+      payload.token = localStorage.token;
+
+      dispatch({
+        type: "USER_SUCCESS",
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
   return (
     <Router>
       <NavBar />

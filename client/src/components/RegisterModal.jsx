@@ -1,8 +1,59 @@
-import React from "react";
-import { Form, Button, Modal } from "react-bootstrap";
+import React, { useState, useContext } from "react";
+import { Form, Button, Modal, Alert } from "react-bootstrap";
 import PropTypes from "prop-types";
 
+import { API } from "../config/api";
+
+import { UserContext } from "../context/UserContext";
+
 export default function RegisterModal(props) {
+  const [state, dispatch] = useContext(UserContext);
+
+  const [message, setMessage] = useState(null);
+  const [form, setForm] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+  });
+
+  const { fullname, email, password } = form;
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const body = JSON.stringify(form);
+      const response = await API.post("/register", body, config);
+      console.log(response);
+
+      dispatch({ type: "LOGIN_SUCCESS", payload: response.data.data.user });
+
+      // Notification
+      if (response.data.status === "success...") {
+        const alert = <Alert variant="success">Success</Alert>;
+        setMessage(alert);
+      } else {
+        const alert = <Alert variant="danger">Failed</Alert>;
+        setMessage(alert);
+      }
+    } catch (error) {
+      const alert = <Alert variant="danger">Failed</Alert>;
+      setMessage(alert);
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Modal show={props.showRegister} onHide={props.handleCloseRegister}>
@@ -10,15 +61,16 @@ export default function RegisterModal(props) {
           <Modal.Title className="fw-bold">Register</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          {message && message}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="formBasictext">
+              <input type="text" className="form-control" placeholder="Full Name" name="fullname" value={fullname} onChange={handleChange} />
+            </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <input type="email" className="form-control" placeholder="Email" />
+              <input type="email" className="form-control" placeholder="Email" name="email" value={email} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <input type="password" className="form-control" placeholder="Password" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasictext">
-              <input type="text" className="form-control" placeholder="Full Name" />
+              <input type="password" className="form-control" placeholder="Password" name="password" value={password} onChange={handleChange} />
             </Form.Group>
             <Button type="submit" variant="danger" className="form-control col-12" onClick={props.handleCloseRegister}>
               Submit

@@ -83,7 +83,15 @@ exports.addFund = async (req, res) => {
 exports.editFund = async (req, res) => {
   try {
     const { id } = req.params;
-    await fund.update(req.body, { where: { id } });
+    const compareImg = await fund.findOne({ where: { id } });
+    // if (req.file.filename != compareImg.dataValues.thumbnail) {
+    // }
+    const body = {
+      ...req.body,
+      // thumbnail: req.file.filename,
+      idUser: req.users.id,
+    };
+    await fund.update(body, { where: { id } });
     const data = await fund.findOne({
       where: { id },
       include: [

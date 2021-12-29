@@ -6,9 +6,10 @@ const auth = require("../middlewares/auth");
 const uploadFile = require("../middlewares/uploadFile");
 
 //auth
-const { login, register } = require("../controllers/auth");
+const { login, register, checkAuth } = require("../controllers/auth");
 router.post("/login", login);
 router.post("/register", register);
+router.get("/check-auth", auth, checkAuth);
 
 //user
 const { getAllUsers, deleteUser } = require("../controllers/user");
