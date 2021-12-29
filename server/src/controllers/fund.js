@@ -7,7 +7,7 @@ exports.getAllFunds = async (req, res) => {
         {
           model: payment,
           as: "usersDonate",
-          attributes: { exclude: ["idUser", "idFund", "createdAt", "updatedAt"] },
+          attributes: { exclude: ["idFund", "createdAt", "updatedAt"] },
         },
       ],
       attributes: { exclude: ["idUser", "createdAt", "updatedAt"] },

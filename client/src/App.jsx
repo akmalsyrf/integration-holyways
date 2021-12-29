@@ -33,7 +33,6 @@ function App() {
   const checkUser = async () => {
     try {
       const response = await API.get("/check-auth");
-      console.log(response);
       if (response.status == 404) {
         return dispatch({
           type: "AUTH_ERROR",

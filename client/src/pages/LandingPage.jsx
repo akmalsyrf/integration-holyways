@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import imgLandingPage1 from "../assets/img/landingpage 1.png";
 import imgLandingPage2 from "../assets/img/landingpage 2.png";
 
-import Donations from "../data/donationData";
-import { Rupiah } from "../data/rupiahFormat";
 import CardDonate from "../components/CardDonate";
 
+import { API } from "../config/api";
+import Donations from "../data/donationData";
+import { Rupiah } from "../data/rupiahFormat";
+
 export default function LandingPage() {
+  const [funds, setFunds] = useState([]);
+  const getFunds = async () => {
+    try {
+      const response = await API.get("/funds");
+      setFunds(response.data.data.funds);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getFunds();
+  }, []);
+
   const history = useHistory();
   const handleToDetailDonate = (id) => {
     history.push(`/detail-donate/${id}`);
@@ -49,17 +64,29 @@ export default function LandingPage() {
         <div id="donate" className="py-5 bg-light">
           <h1 className="text-center text-danger fw-bold me-5">Donate Now</h1>
           <div className="d-flex justify-content-start container flex-wrap pe-5">
-            {Donations.map((donation, i) => {
-              const total = Rupiah(donation.total);
-              const progress = (Number(donation.total) / Number(donation.target)) * 100;
+            {funds.map((fund, i) => {
+              const goal = fund.goal;
+              let amount;
+              // const [amount, setAmount] = useState(0);
+
+              const arrAmount = [];
+              fund.usersDonate.map((userDonate) => {
+                const donateAmount = userDonate.donateAmount;
+                arrAmount.push(donateAmount);
+              });
+              amount = arrAmount.reduce((a, b) => a + b);
+              console.log(amount);
+              const rupiahAmount = Rupiah(amount);
+
+              const progress = (Number(amount) / Number(goal)) * 100;
               const props = {
-                i: Number(i),
-                donationPicture: donation.picture,
-                donationName: donation.name,
+                i,
+                donationPicture: fund.thumbnail,
+                donationName: fund.title,
                 progress,
-                total,
+                rupiahAmount,
                 handleClickButton: handleToDetailDonate,
-                donationId: donation.id,
+                donationId: fund.id,
                 buttonName: "Donate",
               };
               return (
