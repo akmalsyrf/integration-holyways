@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import ProfilePic from "../assets/img/ava.png";
 import { UserContext } from "../context/UserContext";
 
-import Donations from "../data/donationData";
 import { Rupiah } from "../data/rupiahFormat";
 
 import { API } from "../config/api";
@@ -53,7 +52,7 @@ export default function Profile() {
           <h3 className="me-5 fw-bold mb-4">History Donation</h3>
           {funds.map((fund) => {
             for (let i = 0; i < fund.usersDonate.length; i++) {
-              if (state.user.id === Number(fund.usersDonate[i].idUser)) {
+              if (state.user.id == Number(fund.usersDonate[i].idUser)) {
                 const total = Rupiah(fund.usersDonate[i].donateAmount);
                 return (
                   <div className="px-3 py-4 mb-2" style={{ backgroundColor: "white", width: "580px" }} key={fund.id}>

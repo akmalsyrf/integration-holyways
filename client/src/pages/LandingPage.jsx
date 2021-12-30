@@ -6,7 +6,6 @@ import imgLandingPage2 from "../assets/img/landingpage 2.png";
 import CardDonate from "../components/CardDonate";
 
 import { API } from "../config/api";
-import Donations from "../data/donationData";
 import { Rupiah } from "../data/rupiahFormat";
 
 export default function LandingPage() {
@@ -65,26 +64,13 @@ export default function LandingPage() {
           <h1 className="text-center text-danger fw-bold me-5">Donate Now</h1>
           <div className="d-flex justify-content-start container flex-wrap pe-5">
             {funds.map((fund, i) => {
-              const goal = fund.goal;
-              let amount;
-              // const [amount, setAmount] = useState(0);
-
-              const arrAmount = [];
-              fund.usersDonate.map((userDonate) => {
-                const donateAmount = userDonate.donateAmount;
-                arrAmount.push(donateAmount);
-              });
-              amount = arrAmount.reduce((a, b) => a + b);
-              console.log(amount);
-              const rupiahAmount = Rupiah(amount);
-
-              const progress = (Number(amount) / Number(goal)) * 100;
+              const progress = (Number(fund.donationObtained) / Number(fund.goal)) * 100;
               const props = {
                 i,
                 donationPicture: fund.thumbnail,
                 donationName: fund.title,
                 progress,
-                rupiahAmount,
+                total: Rupiah(fund.donationObtained),
                 handleClickButton: handleToDetailDonate,
                 donationId: fund.id,
                 buttonName: "Donate",

@@ -2,15 +2,39 @@ const { fund, payment, user } = require("../../models");
 
 exports.getAllFunds = async (req, res) => {
   try {
-    const data = await fund.findAll({
-      include: [
-        {
-          model: payment,
-          as: "usersDonate",
-          attributes: { exclude: ["idFund", "createdAt", "updatedAt"] },
-        },
-      ],
-      attributes: { exclude: ["idUser", "createdAt", "updatedAt"] },
+    const dataFund = await fund.findAll({
+      // include: [
+      //   {
+      //     model: payment,
+      //     as: "usersDonate",
+      //     attributes: { exclude: ["idFund", "createdAt", "updatedAt"] },
+      //   },
+      // ],
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
+    const usersDonate = await payment.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
+
+    const data = dataFund.map((fund) => {
+      return {
+        id: fund.id,
+        title: fund.title,
+        thumbnail: fund.thumbnail,
+        goal: fund.goal,
+        description: fund.description,
+        idUser: fund.idUser,
+        donationObtained: usersDonate.reduce((total, donation) => {
+          if (donation.idFund == fund.id) {
+            return total + donation.donateAmount;
+          }
+        }, 0),
+        usersDonate: usersDonate.map((donate) => {
+          if (donate.idFund) {
+            return donate;
+          }
+        }),
+      };
     });
     res.status(200).send({
       status: "success",
@@ -73,6 +97,7 @@ exports.addFund = async (req, res) => {
       },
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       status: "failed",
       message: "Server error",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProgressBar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -7,23 +7,39 @@ import DonateModal from "./DonateModal";
 import Donations from "../../data/donationData";
 import { Rupiah } from "../../data/rupiahFormat";
 
+import { API } from "../../config/api";
+
 export default function DonationInfo(props) {
   //modal donate
   const [showDonateModal, setShowDonateModal] = useState(false);
   const handleCloseDonateModal = () => setShowDonateModal(false);
   const handleShowDonateModal = () => setShowDonateModal(true);
+
+  //get funds
+  const [funds, setFunds] = useState([]);
+  const getFunds = async () => {
+    try {
+      const response = await API.get("/funds");
+      setFunds(response.data.data.funds);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getFunds();
+  }, []);
   return (
     <>
-      {Donations.map((donation) => {
-        const total = Rupiah(donation.total);
-        const target = Rupiah(donation.target);
-        const progress = (Number(donation.total) / Number(donation.target)) * 100;
-        if (Number(donation.id) === Number(props.params.id)) {
+      {funds.map((fund) => {
+        const total = Rupiah(fund.donationObtained);
+        const target = Rupiah(fund.goal);
+        const progress = (Number(fund.donationObtained) / Number(fund.goal)) * 100;
+        if (Number(fund.id) === Number(props.params.id)) {
           return (
-            <div className="py-5 d-flex" key={donation.id}>
-              <img src={donation.picture} alt="" className="rounded col-5" style={{ objectFit: "cover" }} />
+            <div className="py-5 d-flex" key={fund.id}>
+              <img src={fund.thumbnail} alt="" className="rounded col-5" style={{ objectFit: "cover" }} />
               <div className="offset-1 col-5">
-                <h3>{donation.name}</h3>
+                <h3>{fund.title}</h3>
                 <div className="my-5">
                   <div className="d-flex justify-content-between">
                     <p className="text-danger fw-bold">
