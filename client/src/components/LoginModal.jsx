@@ -39,6 +39,11 @@ export default function LoginModal(props) {
 
       dispatch({ type: "LOGIN_SUCCESS", payload: response.data.data.user });
 
+      setForm({
+        email: "",
+        password: "",
+      });
+
       // Notification
       if (response.data.status === "success...") {
         const alert = <Alert variant="success">Success</Alert>;

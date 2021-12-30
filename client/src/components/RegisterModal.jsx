@@ -39,6 +39,12 @@ export default function RegisterModal(props) {
 
       dispatch({ type: "LOGIN_SUCCESS", payload: response.data.data.user });
 
+      setForm({
+        fullname: "",
+        email: "",
+        password: "",
+      });
+
       // Notification
       if (response.data.status === "success...") {
         const alert = <Alert variant="success">Success</Alert>;

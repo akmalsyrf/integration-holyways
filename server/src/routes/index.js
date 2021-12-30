@@ -17,7 +17,7 @@ router.get("/users", getAllUsers);
 router.delete("/user/:id", deleteUser);
 
 // fund
-const { getAllFunds, getFund, addFund, editFund, deleteFund, addUserDonate, editUserDonateByFund } = require("../controllers/fund");
+const { getAllFunds, getFund, addFund, editFund, deleteFund, addUserDonate, getUserDonateByFund, editUserDonateByFund } = require("../controllers/fund");
 router.get("/funds", getAllFunds);
 router.get("/fund/:id", getFund);
 router.post("/fund", uploadFile("thumbnail"), auth, addFund);
@@ -25,6 +25,7 @@ router.patch("/fund/:id", auth, editFund);
 router.delete("/fund/:id", auth, deleteFund);
 
 //userDonate
+router.get("/usersDonate/:fundId", getUserDonateByFund);
 router.post("/fund/:fundId", uploadFile("proofAttachment"), auth, addUserDonate);
 router.patch("/fund/:fundId/:userId", auth, editUserDonateByFund);
 

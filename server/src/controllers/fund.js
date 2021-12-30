@@ -26,12 +26,20 @@ exports.getAllFunds = async (req, res) => {
         idUser: fund.idUser,
         donationObtained: usersDonate.reduce((total, donation) => {
           if (donation.idFund == fund.id) {
-            return total + donation.donateAmount;
+            if (donation.status == "success") {
+              return total + donation.donateAmount;
+            } else {
+              return total;
+            }
+          } else {
+            return total;
           }
         }, 0),
         usersDonate: usersDonate.map((donate) => {
-          if (donate.idFund) {
+          if (donate.idFund == fund.id) {
             return donate;
+          } else {
+            return "";
           }
         }),
       };
@@ -54,17 +62,43 @@ exports.getAllFunds = async (req, res) => {
 exports.getFund = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await fund.findOne({
+    const dataFund = await fund.findOne({
       where: { id },
-      include: [
-        {
-          model: payment,
-          as: "usersDonate",
-          attributes: { exclude: ["idUser", "idFund", "createdAt", "updatedAt"] },
-        },
-      ],
-      attributes: { exclude: ["idUser", "createdAt", "updatedAt"] },
+      // include: [
+      //   {
+      //     model: payment,
+      //     as: "usersDonate",
+      //     attributes: { exclude: ["createdAt", "updatedAt"] },
+      //   },
+      // ],
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
+    const usersDonate = await payment.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
+
+    const data = {
+      id: dataFund.id,
+      title: dataFund.title,
+      thumbnail: dataFund.thumbnail,
+      goal: dataFund.goal,
+      description: dataFund.description,
+      idUser: dataFund.idUser,
+      donationObtained: usersDonate.reduce((total, donation) => {
+        if (donation.idFund == dataFund.id) {
+          return total + donation.donateAmount;
+        } else {
+          return total;
+        }
+      }, 0),
+      usersDonate: usersDonate.map((donate) => {
+        if (donate.idFund == dataFund.id) {
+          return donate;
+        } else {
+          return "";
+        }
+      }),
+    };
     res.status(200).send({
       status: "success",
       data: {
@@ -177,6 +211,26 @@ exports.addUserDonate = async (req, res) => {
       },
     });
   } catch (error) {
+    res.status(500).send({
+      status: "failed",
+      message: "Server error",
+    });
+  }
+};
+
+exports.getUserDonateByFund = async (req, res) => {
+  const { fundId } = req.params;
+  try {
+    const data = await payment.findAll({
+      where: { idFund: fundId },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
+    res.status(200).send({
+      status: "success",
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
     res.status(500).send({
       status: "failed",
       message: "Server error",
