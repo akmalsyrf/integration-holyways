@@ -17,7 +17,6 @@ export default function RegisterModal(props) {
   });
 
   const { fullname, email, password } = form;
-
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -46,7 +45,7 @@ export default function RegisterModal(props) {
       });
 
       // Notification
-      if (response.data.status === "success...") {
+      if (response.data.status === "success") {
         const alert = <Alert variant="success">Success</Alert>;
         setMessage(alert);
       } else {

@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 exports.register = async (req, res) => {
   const data = req.body;
   const schema = Joi.object({
-    fullname: Joi.string().min(5).required(),
+    fullname: Joi.string().required(),
     email: Joi.string().min(6).email().required(),
     password: Joi.string().min(5).required(),
   });

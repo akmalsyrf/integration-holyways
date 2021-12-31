@@ -60,7 +60,7 @@ export default function MakeFund() {
   return (
     <>
       <div className="container-fluid vh-100 bg-light px-5 py-5">
-        <Form className="container" onSubmit={handleSubmit}>
+        <Form className="container mb-5" onSubmit={handleSubmit}>
           <h2 className="mb-5 fw-bold">Make Raise Fund</h2>
           {preview && (
             <div>

@@ -1,4 +1,5 @@
 const { fund, payment, user } = require("../../models");
+const fs = require("fs");
 
 exports.getAllFunds = async (req, res) => {
   try {
@@ -86,7 +87,11 @@ exports.getFund = async (req, res) => {
       idUser: dataFund.idUser,
       donationObtained: usersDonate.reduce((total, donation) => {
         if (donation.idFund == dataFund.id) {
-          return total + donation.donateAmount;
+          if (donation.status == "success") {
+            return total + donation.donateAmount;
+          } else {
+            return total;
+          }
         } else {
           return total;
         }
@@ -184,11 +189,40 @@ exports.editFund = async (req, res) => {
 exports.deleteFund = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await fund.destroy({ where: { id } });
+
+    //delete proof attachment
+    const dataPayment = await payment.findAll({
+      where: {
+        idFund: id,
+      },
+    });
+
+    if (dataPayment) {
+      dataPayment.map((donate) => {
+        fs.unlink("uploads/" + donate.proofAttachment, (err) => {
+          if (err) throw err;
+          return console.log("Delete proof donate image");
+        });
+      });
+    }
+
+    //delete thumbnail fund
+    const dataFund = await fund.findOne({
+      where: {
+        id,
+      },
+    });
+    fs.unlink("uploads/" + dataFund.thumbnail, (err) => {
+      if (err) throw err;
+      console.log("Delete fund thumbnail");
+    });
+
+    //delete fund
+    await fund.destroy({ where: { id } });
     res.status(200).send({
       status: "success",
       data: {
-        id: data,
+        id,
       },
     });
   } catch (error) {

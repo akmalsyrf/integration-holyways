@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import ListDonateUser from "./ListDonate/ListDonateUser";
 
-import Donations from "../../data/donationData";
-import Users from "../../data/userData";
-
 import { API } from "../../config/api";
 
 export default function DonationApproved(props) {
@@ -29,10 +26,18 @@ export default function DonationApproved(props) {
           <>
             <h2 className="mb-2 fw-bold">List Donation (200)</h2>
             {usersDonate.map((donate) => {
+              const fundId = props.params.id;
               if (donate.status === "success") {
+                const props = {
+                  userName: donate.fullname,
+                  amount: donate.donateAmount,
+                  usersDonateId: donate.id,
+                  fundId,
+                  proofAttachment: donate.proofAttachment,
+                };
                 return (
                   <>
-                    <ListDonateUser userName={donate.fullname} key={donate.id} isApproved={props.isApproved} />
+                    <ListDonateUser {...props} isApproved={props.isApproved} />
                   </>
                 );
               }
@@ -42,10 +47,18 @@ export default function DonationApproved(props) {
           <>
             <h2 className="mb-2 fw-bold">Donation has not been approved (10)</h2>
             {usersDonate.map((donate) => {
+              const fundId = props.params.id;
               if (donate.status === "pending") {
+                const props = {
+                  userName: donate.fullname,
+                  amount: donate.donateAmount,
+                  usersDonateId: donate.id,
+                  fundId,
+                  proofAttachment: donate.proofAttachment,
+                };
                 return (
                   <>
-                    <ListDonateUser userName={donate.fullname} key={donate.id} isApproved={props.isApproved} />
+                    <ListDonateUser {...props} isApproved={props.isApproved} />
                   </>
                 );
               }
