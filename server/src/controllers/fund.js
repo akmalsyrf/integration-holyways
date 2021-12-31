@@ -115,7 +115,11 @@ exports.getFund = async (req, res) => {
 
 exports.addFund = async (req, res) => {
   try {
-    const data = await fund.create({ ...req.body, idUser: req.users.id, thumbnail: req.file.filename });
+    const data = await fund.create({
+      ...req.body,
+      idUser: req.users.id,
+      thumbnail: req.file.filename,
+    });
     const value = data.dataValues;
     const response = {
       id: value.id,
