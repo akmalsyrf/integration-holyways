@@ -29,11 +29,10 @@ export default function CardDonate(props) {
     handleCloseRegister,
     handleShowLogin,
   };
-  let pathFile = "http://localhost:5000/uploads/";
   return (
     <div className="col-3 mt-5 ms-5" key={props.i}>
       <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={pathFile + props.donationPicture} alt="donation picture" />
+        <Card.Img variant="top" src={process.env.REACT_APP_PATH_FILE + props.donationPicture} alt="donation picture" />
         <Card.Body>
           <Card.Title>{props.donationName}</Card.Title>
           <Card.Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry..</Card.Text>

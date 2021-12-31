@@ -32,11 +32,10 @@ export default function DonationInfo(props) {
   const target = Rupiah(fund.goal);
   const progress = (Number(fund.donationObtained) / Number(fund.goal)) * 100;
 
-  let pathFile = "http://localhost:5000/uploads/";
   return (
     <>
       <div className="py-5 d-flex" key={fund.id}>
-        <img src={pathFile + fund.thumbnail} alt="" className="rounded col-5" style={{ objectFit: "cover" }} />
+        <img src={process.env.REACT_APP_PATH_FILE + fund.thumbnail} alt="" className="rounded col-5" style={{ objectFit: "cover" }} />
         <div className="offset-1 col-5">
           <h3>{fund.title}</h3>
           <div className="my-5">
@@ -66,7 +65,7 @@ export default function DonationInfo(props) {
           <Link to="#" className="col-12 btn btn-danger" onClick={handleShowDonateModal}>
             Donate
           </Link>
-          <DonateModal showDonateModal={showDonateModal} handleCloseDonateModal={handleCloseDonateModal} />
+          <DonateModal fundId={props.params.id} showDonateModal={showDonateModal} handleCloseDonateModal={handleCloseDonateModal} />
         </div>
       </div>
     </>

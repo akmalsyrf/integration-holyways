@@ -44,10 +44,10 @@ export default function MakeFund() {
       formData.set("goal", Number(form.goal));
       formData.set("description", form.description);
 
-      //check formData entries
-      for (let key of formData.entries()) {
-        console.log(key[0] + ", " + typeof key[1]);
-      }
+      // //check formData entries
+      // for (let key of formData.entries()) {
+      //   console.log(key[0] + ", " + typeof key[1]);
+      // }
 
       const response = await API.post("/fund", formData, config);
       console.log(response);
