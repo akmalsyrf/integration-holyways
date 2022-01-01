@@ -2,8 +2,6 @@ import React from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-import ApproveDonate from "../../assets/img/approvedonate.png";
-
 import { Rupiah } from "../../data/rupiahFormat";
 
 export default function ApproveModal(props) {

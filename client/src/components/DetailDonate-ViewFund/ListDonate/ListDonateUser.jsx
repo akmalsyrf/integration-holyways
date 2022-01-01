@@ -48,7 +48,7 @@ export default function ListDonateUser(props) {
     <>
       {props.isApproved ? (
         <>
-          <div className="p-3 col-12 my-3" style={{ backgroundColor: "white" }} key={props.usersDonateId}>
+          <div className="p-3 col-12 my-3" style={{ backgroundColor: "white" }} key={props.i}>
             <h4 className="fw-bold">{props.userName}</h4>
             <p>
               <span className="fw-bold">Saturday</span>, 12 April 2021
@@ -58,7 +58,7 @@ export default function ListDonateUser(props) {
         </>
       ) : (
         <>
-          <div className="p-3 my-3 d-flex justify-content-between align-items-center" style={{ backgroundColor: "white" }} key={props.usersDonateId}>
+          <div className="p-3 my-3 d-flex justify-content-between align-items-center" style={{ backgroundColor: "white" }} key={props.i}>
             <div className="col-11">
               <h4 className="fw-bold">{props.userName}</h4>
               <p>

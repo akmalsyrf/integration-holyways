@@ -25,10 +25,11 @@ export default function DonationApproved(props) {
         {props.isApproved ? (
           <>
             <h2 className="mb-2 fw-bold">List Donation (200)</h2>
-            {usersDonate.map((donate) => {
+            {usersDonate.map((donate, i) => {
               const fundId = props.params.id;
-              if (donate.status === "success") {
-                const props = {
+              if (donate.status == "success") {
+                const ListProps = {
+                  i,
                   userName: donate.fullname,
                   amount: donate.donateAmount,
                   usersDonateId: donate.id,
@@ -37,7 +38,7 @@ export default function DonationApproved(props) {
                 };
                 return (
                   <>
-                    <ListDonateUser {...props} isApproved={props.isApproved} />
+                    <ListDonateUser {...ListProps} isApproved={props.isApproved} />
                   </>
                 );
               }
@@ -46,10 +47,11 @@ export default function DonationApproved(props) {
         ) : (
           <>
             <h2 className="mb-2 fw-bold">Donation has not been approved (10)</h2>
-            {usersDonate.map((donate) => {
+            {usersDonate.map((donate, i) => {
               const fundId = props.params.id;
-              if (donate.status === "pending") {
-                const props = {
+              if (donate.status == "pending") {
+                const ListProps = {
+                  i,
                   userName: donate.fullname,
                   amount: donate.donateAmount,
                   usersDonateId: donate.id,
@@ -58,7 +60,7 @@ export default function DonationApproved(props) {
                 };
                 return (
                   <>
-                    <ListDonateUser {...props} isApproved={props.isApproved} />
+                    <ListDonateUser {...ListProps} isApproved={props.isApproved} />
                   </>
                 );
               }
