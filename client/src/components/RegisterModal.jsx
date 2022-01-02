@@ -36,20 +36,20 @@ export default function RegisterModal(props) {
       const response = await API.post("/register", body, config);
       console.log(response);
 
-      dispatch({ type: "LOGIN_SUCCESS", payload: response.data.data.user });
-
-      setForm({
-        fullname: "",
-        email: "",
-        password: "",
-      });
-
-      // Notification
       if (response.data.status === "success") {
         const alert = <Alert variant="success">Success</Alert>;
         setMessage(alert);
-      } else {
-        const alert = <Alert variant="danger">Failed</Alert>;
+        dispatch({ type: "LOGIN_SUCCESS", payload: response.data.data.user });
+
+        setForm({
+          fullname: "",
+          email: "",
+          password: "",
+        });
+        props.handleCloseRegister();
+        setMessage(null);
+      } else if (response.data.status === "error") {
+        const alert = <Alert variant="danger">{response.data.message}</Alert>;
         setMessage(alert);
       }
     } catch (error) {
@@ -77,7 +77,7 @@ export default function RegisterModal(props) {
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <input type="password" className="form-control" placeholder="Password" name="password" value={password} onChange={handleChange} />
             </Form.Group>
-            <Button type="submit" variant="danger" className="form-control col-12" onClick={props.handleCloseRegister}>
+            <Button type="submit" variant="danger" className="form-control col-12">
               Submit
             </Button>
             <p className="mt-3 text-center text-secondary">

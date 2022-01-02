@@ -8,6 +8,8 @@ import { API } from "../config/api";
 import { UserContext } from "../context/UserContext";
 
 export default function RaiseFund() {
+  const title = "Your Raise Fund";
+  document.title = title + " - Hollyways";
   const [state] = useContext(UserContext);
 
   const [funds, setFunds] = useState([]);
@@ -45,6 +47,7 @@ export default function RaiseFund() {
                 i,
                 donationPicture: fund.thumbnail,
                 donationName: fund.title,
+                donationDescription: fund.description,
                 progress,
                 total,
                 handleClickButton: handleToDetailDonate,

@@ -33,7 +33,7 @@ function App() {
   const checkUser = async () => {
     try {
       const response = await API.get("/check-auth");
-      if (response.status == 404) {
+      if (response.status === 404) {
         return dispatch({
           type: "AUTH_ERROR",
         });
@@ -60,7 +60,7 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path="/" component={LandingPage} />
-        <Route exact path="/detail-donate/:id" component={DetailDonate} />
+        <PrivateRoute exact path="/detail-donate/:id" component={DetailDonate} />
         <PrivateRoute exact path="/profile" component={Profile} />
         <PrivateRoute exact path="/raise-fund" component={RaiseFund} />
         <PrivateRoute exact path="/view-fund/:id" component={ViewFund} />

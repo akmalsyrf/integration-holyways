@@ -37,19 +37,20 @@ export default function LoginModal(props) {
       const response = await API.post("/login", body, config);
       console.log(response);
 
-      dispatch({ type: "LOGIN_SUCCESS", payload: response.data.data.user });
-
-      setForm({
-        email: "",
-        password: "",
-      });
-
-      // Notification
-      if (response.data.status === "success...") {
+      if (response.data.status === "success") {
         const alert = <Alert variant="success">Success</Alert>;
         setMessage(alert);
-      } else {
-        const alert = <Alert variant="danger">Failed</Alert>;
+
+        dispatch({ type: "LOGIN_SUCCESS", payload: response.data.data.user });
+
+        setForm({
+          email: "",
+          password: "",
+        });
+        props.handleCloseLogin();
+        setMessage(null);
+      } else if (response.data.status === "error") {
+        const alert = <Alert variant="danger">{response.data.message}</Alert>;
         setMessage(alert);
       }
     } catch (error) {
@@ -65,6 +66,7 @@ export default function LoginModal(props) {
           <Modal.Title className="fw-bold">Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {message && message}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <input type="email" className="form-control" placeholder="Email" name="email" value={email} onChange={handleChange} />
@@ -72,7 +74,7 @@ export default function LoginModal(props) {
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <input type="password" className="form-control" placeholder="Password" name="password" value={password} onChange={handleChange} />
             </Form.Group>
-            <Button variant="danger" type="submit" className="col-12" onClick={props.handleCloseLogin}>
+            <Button variant="danger" type="submit" className="col-12">
               Submit
             </Button>
             <p className="mt-3 text-center text-secondary">

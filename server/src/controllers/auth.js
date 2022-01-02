@@ -14,7 +14,7 @@ exports.register = async (req, res) => {
   const { error } = schema.validate(data);
 
   if (error) {
-    return res.status(400).send({
+    return res.send({
       status: "error",
       message: error.details[0].message,
     });
@@ -31,6 +31,7 @@ exports.register = async (req, res) => {
 
     if (userExist) {
       return res.send({
+        status: "error",
         message: "email already used",
       });
     }
@@ -72,10 +73,9 @@ exports.login = async (req, res) => {
   const { error } = schema.validate(req.body);
 
   if (error) {
-    return res.status(400).send({
-      error: {
-        message: error.details[0].message,
-      },
+    return res.send({
+      status: "error",
+      message: error.details[0].message,
     });
   }
   try {
@@ -89,16 +89,16 @@ exports.login = async (req, res) => {
     });
 
     if (!userExist) {
-      return res.status(400).send({
-        status: "failed",
+      return res.send({
+        status: "error",
         message: "user doesn't exist",
       });
     }
     const isValid = await bcrypt.compare(req.body.password, userExist.password);
 
     if (!isValid) {
-      return res.status(400).send({
-        status: "failed",
+      return res.send({
+        status: "error",
         message: "credential is invalid",
       });
     }
@@ -127,7 +127,6 @@ exports.login = async (req, res) => {
 };
 
 exports.checkAuth = async (req, res) => {
-  console.log(req.users);
   try {
     const id = req.users.id;
     const dataUser = await user.findOne({
@@ -146,7 +145,7 @@ exports.checkAuth = async (req, res) => {
     }
 
     res.status(200).send({
-      status: "success...",
+      status: "success",
       data: {
         user: {
           id: dataUser.id,

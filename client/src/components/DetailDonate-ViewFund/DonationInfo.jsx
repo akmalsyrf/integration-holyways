@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { ProgressBar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, ProgressBar, Modal } from "react-bootstrap";
 
 import DonateModal from "./DonateModal";
 
 import { Rupiah } from "../../data/rupiahFormat";
 
 import { API } from "../../config/api";
+import { useHistory } from "react-router-dom";
 
 export default function DonationInfo(props) {
   //modal donate
@@ -27,6 +27,39 @@ export default function DonationInfo(props) {
   useEffect(() => {
     getFund();
   }, []);
+
+  // const [usersDonateLength, setUsersDonateLength] = useState(null);
+  // useEffect(() => {
+  //   setUsersDonateLength(null);
+  //   setUsersDonateLength(fund.usersDonate.length);
+  // }, []);
+
+  //get usersDonate length
+  const [usersDonateLength, setUsersDonateLength] = useState(0);
+  const getUsersDonateLength = async () => {
+    try {
+      const response = await API.get(`/usersDonate/${props.params.id}`);
+      setUsersDonateLength(response.data.data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUsersDonateLength();
+  }, []);
+
+  //modal confirm delete
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const handleCloseConfirmModal = () => setShowConfirmModal(false);
+  const handleShowConfirmModal = () => setShowConfirmModal(true);
+
+  const history = useHistory();
+  const handleEditFund = () => {
+    history.push("/");
+  };
+  const handleFinishFund = async () => {
+    handleCloseConfirmModal();
+  };
 
   const total = Rupiah(fund.donationObtained);
   const target = Rupiah(fund.goal);
@@ -51,21 +84,50 @@ export default function DonationInfo(props) {
             </div>
             <div className="d-flex justify-content-between">
               <p>
-                <span className="fw-bold">200</span> Donation
+                <span className="fw-bold">{usersDonateLength}</span> Donation
               </p>
               <p>
                 <span className="fw-bold">150</span> More Day
               </p>
             </div>
-            <p className="text-secondary mt-3">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book.
-            </p>
+            <p className="text-secondary mt-3">{fund.description}</p>
           </div>
-          <Link to="#" className="col-12 btn btn-danger" onClick={handleShowDonateModal}>
-            Donate
-          </Link>
+          {props.isViewFund ? (
+            <>
+              <Button className="col-12 btn btn-danger mb-2" onClick={handleShowDonateModal}>
+                Donate
+              </Button>
+              <Button className="col-12 btn btn-danger mb-2" onClick={handleEditFund}>
+                Edit Fund
+              </Button>
+              <Button className="col-12 btn btn-danger mb-2" onClick={handleShowConfirmModal}>
+                Finish Fund
+              </Button>
+            </>
+          ) : (
+            <Button className="col-12 btn btn-danger mb-2" onClick={handleShowDonateModal}>
+              Donate
+            </Button>
+          )}
+
+          {/* donate modal */}
           <DonateModal fundId={props.params.id} showDonateModal={showDonateModal} handleCloseDonateModal={handleCloseDonateModal} />
+
+          {/* confirm delete modal */}
+          <Modal show={showConfirmModal} onHide={handleCloseConfirmModal} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Finish Fund</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="fw-bold">Are you sure to finish "{fund.title}" fund?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseConfirmModal}>
+                Close
+              </Button>
+              <Button variant="danger" onClick={handleFinishFund}>
+                Yes, i'm sure
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       </div>
     </>

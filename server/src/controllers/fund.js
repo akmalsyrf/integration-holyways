@@ -11,6 +11,7 @@ exports.getAllFunds = async (req, res) => {
       //     attributes: { exclude: ["idFund", "createdAt", "updatedAt"] },
       //   },
       // ],
+      order: [["id", "DESC"]],
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     const usersDonate = await payment.findAll({
@@ -119,6 +120,7 @@ exports.getFund = async (req, res) => {
 };
 
 exports.addFund = async (req, res) => {
+  console.log(req.users);
   try {
     const data = await fund.create({
       ...req.body,
@@ -240,6 +242,7 @@ exports.addUserDonate = async (req, res) => {
     attributes: { exclude: ["createdAt", "updatedAt"] },
   });
   const data = { ...req.body, fullname: userData.fullname, email: userData.email, proofAttachment: req.file.filename, idUser: userData.id, idFund: fundId };
+
   try {
     const userDonate = await payment.create(data);
     res.status(200).send({

@@ -9,6 +9,7 @@ import { API } from "../config/api";
 import { Rupiah } from "../data/rupiahFormat";
 
 export default function LandingPage() {
+  document.title = "Hollyways : #1 Fundraising Platform for Online Crowdfunding";
   const [funds, setFunds] = useState([]);
   const getFunds = async () => {
     try {
@@ -69,6 +70,7 @@ export default function LandingPage() {
                 i,
                 donationPicture: fund.thumbnail,
                 donationName: fund.title,
+                donationDescription: fund.description,
                 progress,
                 total: Rupiah(fund.donationObtained),
                 handleClickButton: handleToDetailDonate,

@@ -9,6 +9,8 @@ import { API } from "../config/api";
 export default function Profile() {
   const [state] = useContext(UserContext);
 
+  const title = state.user.fullname;
+  document.title = title + " - Hollyways";
   const [funds, setFunds] = useState([]);
   const getFunds = async () => {
     try {
@@ -52,7 +54,7 @@ export default function Profile() {
           <h3 className="me-5 fw-bold mb-4">History Donation</h3>
           {funds.map((fund) => {
             for (let i = 0; i < fund.usersDonate.length; i++) {
-              if (state.user.id == Number(fund.usersDonate[i].idUser)) {
+              if (state.user.id === Number(fund.usersDonate[i].idUser)) {
                 const total = Rupiah(fund.usersDonate[i].donateAmount);
                 return (
                   <div className="px-3 py-4 mb-2" style={{ backgroundColor: "white", width: "580px" }} key={fund.id}>
@@ -60,7 +62,7 @@ export default function Profile() {
                     <p>Saturday, 12 April 2021</p>
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold text-danger">Total : {total}</p>
-                      <button className="btn btn-light text-success fw-bold px-5">Finished</button>
+                      {fund.usersDonate[0].status === "success" ? <div className="btn btn-light text-success fw-bold px-5">Finished</div> : <div className="btn btn-light text-danger fw-bold px-5">Pending</div>}
                     </div>
                   </div>
                 );
