@@ -1,6 +1,7 @@
 import React from "react";
+import "./Chat.css";
 
-import default_profile from "../../assets/img/blank-profile.png";
+import default_profile from "../../../assets/img/blank-profile.png";
 
 export default function Chat({ contact, user, messages, sendMessage }) {
   return (
@@ -17,7 +18,7 @@ export default function Chat({ contact, user, messages, sendMessage }) {
               </div>
             ))}
           </div>
-          <div style={{ height: "6vh" }} className="px-3">
+          <div style={{ height: "6vh" }} className="px-3 col-12">
             <input placeholder="Send Message" className="input-message px-4" onKeyPress={sendMessage} />
           </div>
         </>

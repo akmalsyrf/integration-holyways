@@ -1,6 +1,7 @@
 import React from "react";
+import "./Contact.css";
 
-import default_profile from "../../assets/img/blank-profile.png";
+import default_profile from "../../../assets/img/blank-profile.png";
 
 export default function Contact({ dataContact, clickContact, contact }) {
   return (
@@ -15,10 +16,10 @@ export default function Contact({ dataContact, clickContact, contact }) {
                 clickContact(item);
               }}
             >
-              <img src={item.profile?.image || default_profile} className="rounded-circle me-2 img-contact" alt="user avatar" />
+              <img src={item.profile?.image || default_profile} className="rounded-circle me-2 img-contact" style={{ maxHeight: "50px" }} alt="user avatar" />
               <div className="ps-1 text-contact d-flex flex-column justify-content-around">
-                <p className="mb-0">{item.name}</p>
-                <p className="text-contact-chat mt-1 mb-0">{item.message}</p>
+                <p className="mb-0 fs-5">{item.fullname}</p>
+                <p className="text-success mt-1 mb-0">{item.message}</p>
               </div>
             </div>
           ))}

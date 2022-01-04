@@ -1,13 +1,13 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const port = 5000;
 require("dotenv").config();
-const router = require("./src/routes/index");
+const express = require("express");
+const cors = require("cors");
 
 //websocket server
 const http = require("http");
 const { Server } = require("socket.io");
+const router = require("./src/routes/index");
+
+const app = express();
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -16,6 +16,8 @@ const io = new Server(server, {
   },
 });
 require("./src/socket")(io);
+
+const port = 5000;
 
 app.use(express.json());
 app.use(cors());
@@ -28,6 +30,6 @@ app.use((req, res) => {
   res.sendStatus(404);
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
