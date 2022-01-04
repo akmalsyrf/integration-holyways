@@ -76,6 +76,7 @@ exports.getFund = async (req, res) => {
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     const usersDonate = await payment.findAll({
+      where: { idFund: id },
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 

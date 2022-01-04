@@ -21,6 +21,7 @@ import PrivateRoute from "./context/PrivateRoute";
 import { UserContext } from "./context/UserContext";
 
 import { API, setAuthToken } from "./config/api";
+import LiveChat from "./pages/LiveChat";
 
 //check token in localstorage
 if (localStorage.token) {
@@ -62,6 +63,7 @@ function App() {
         <Route exact path="/" component={LandingPage} />
         <PrivateRoute exact path="/detail-donate/:id" component={DetailDonate} />
         <PrivateRoute exact path="/profile" component={Profile} />
+        <PrivateRoute exact path="/chat" component={LiveChat} />
         <PrivateRoute exact path="/raise-fund" component={RaiseFund} />
         <PrivateRoute exact path="/view-fund/:id" component={ViewFund} />
         <PrivateRoute exact path="/make-fund" component={MakeFund} />
