@@ -16,7 +16,7 @@ export default function Contact({ dataContact, clickContact, contact }) {
                 clickContact(item);
               }}
             >
-              <img src={item.profile?.image || default_profile} className="rounded-circle me-2 img-contact" style={{ maxHeight: "50px" }} alt="user avatar" />
+              <img src={default_profile} className="rounded-circle me-2 img-contact" style={{ maxHeight: "50px" }} alt="user avatar" />
               <div className="ps-1 text-contact d-flex flex-column justify-content-around">
                 <p className="mb-0 fs-5">{item.fullname}</p>
                 <p className="text-success mt-1 mb-0">{item.message}</p>

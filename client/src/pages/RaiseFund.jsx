@@ -9,7 +9,7 @@ import { UserContext } from "../context/UserContext";
 
 export default function RaiseFund() {
   const title = "Your Raise Fund";
-  document.title = title + " - Hollyways";
+  document.title = title + " | Hollyways";
   const [state] = useContext(UserContext);
 
   const [funds, setFunds] = useState([]);

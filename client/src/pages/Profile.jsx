@@ -10,7 +10,8 @@ export default function Profile() {
   const [state] = useContext(UserContext);
 
   const title = state.user.fullname;
-  document.title = title + " - Hollyways";
+  document.title = title + " | Hollyways";
+
   const [funds, setFunds] = useState([]);
   const getFunds = async () => {
     try {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, ProgressBar, Modal } from "react-bootstrap";
+import { Button, ProgressBar, Modal, Alert } from "react-bootstrap";
 
 import DonateModal from "./DonateModal";
 
@@ -53,12 +53,24 @@ export default function DonationInfo(props) {
   const handleCloseConfirmModal = () => setShowConfirmModal(false);
   const handleShowConfirmModal = () => setShowConfirmModal(true);
 
-  const history = useHistory();
+  //handling edit and delete
+  const historyEdit = useHistory();
+  const historyDelete = useHistory();
   const handleEditFund = () => {
-    history.push("/");
+    historyEdit.push(`/edit-fund/${props.params.id}`);
   };
+  const [alert, setAlert] = useState("");
   const handleFinishFund = async () => {
-    handleCloseConfirmModal();
+    try {
+      const response = await API.delete(`/fund/${props.params.id}`);
+      console.log(response);
+      handleCloseConfirmModal();
+      historyDelete.push("/raise-fund");
+    } catch (error) {
+      console.log(error);
+      const alert = <Alert variant="danger">Server Error</Alert>;
+      setAlert(alert);
+    }
   };
 
   const total = Rupiah(fund.donationObtained);
@@ -71,7 +83,7 @@ export default function DonationInfo(props) {
         <img src={process.env.REACT_APP_PATH_FILE + fund.thumbnail} alt="" className="rounded col-5" style={{ objectFit: "cover" }} />
         <div className="offset-1 col-5">
           <h3>{fund.title}</h3>
-          <div className="my-5">
+          <div className="mt-5">
             <div className="d-flex justify-content-between">
               <p className="text-danger fw-bold">
                 {total}
@@ -94,18 +106,18 @@ export default function DonationInfo(props) {
           </div>
           {props.isViewFund ? (
             <>
-              <Button className="col-12 btn btn-danger mb-2" onClick={handleShowDonateModal}>
+              <Button className="col-12 btn btn-danger my-2" onClick={handleShowDonateModal}>
                 Donate
               </Button>
-              <Button className="col-12 btn btn-danger mb-2" onClick={handleEditFund}>
+              <Button className="col-12 btn btn-danger my-2" onClick={handleEditFund}>
                 Edit Fund
               </Button>
-              <Button className="col-12 btn btn-danger mb-2" onClick={handleShowConfirmModal}>
+              <Button className="col-12 btn btn-danger my-2" onClick={handleShowConfirmModal}>
                 Finish Fund
               </Button>
             </>
           ) : (
-            <Button className="col-12 btn btn-danger mb-2" onClick={handleShowDonateModal}>
+            <Button className="col-12 btn btn-danger my-2" onClick={handleShowDonateModal}>
               Donate
             </Button>
           )}
@@ -118,7 +130,8 @@ export default function DonationInfo(props) {
             <Modal.Header closeButton>
               <Modal.Title>Finish Fund</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="fw-bold">Are you sure to finish "{fund.title}" fund?</Modal.Body>
+            {alert && alert}
+            <Modal.Body className="fw-bold">Are you sure to finish "{fund.title}" donation?</Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseConfirmModal}>
                 Close

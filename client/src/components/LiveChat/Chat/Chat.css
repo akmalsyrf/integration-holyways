@@ -6,7 +6,7 @@
 }
 .chat-me {
   position: relative;
-  background: #262626;
+  background: #adadad;
   border-radius: 5px;
   padding: 10px;
   font-weight: 500;
@@ -21,12 +21,13 @@
   top: 8px;
   right: -15px;
   border-top: 15px solid transparent;
-  border-left: 20px solid #262626;
+  border-left: 20px solid #adadad;
   border-bottom: 15px solid transparent;
 }
 .chat-other {
   position: relative;
   background: #575757;
+  color: white;
   border-radius: 5px;
   margin-left: 10px;
   padding: 10px;

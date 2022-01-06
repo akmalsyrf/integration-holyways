@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import RaiseFund from "./pages/RaiseFund";
 import DetailDonate from "./pages/DetailDonate";
 import MakeFund from "./pages/MakeFund";
+import EditFund from "./pages/EditFund";
 import NotFound from "./pages/NotFound";
 import ViewFund from "./pages/ViewFund";
 
@@ -67,6 +68,7 @@ function App() {
         <PrivateRoute exact path="/raise-fund" component={RaiseFund} />
         <PrivateRoute exact path="/view-fund/:id" component={ViewFund} />
         <PrivateRoute exact path="/make-fund" component={MakeFund} />
+        <PrivateRoute exact path="/edit-fund/:id" component={EditFund} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>

@@ -6,7 +6,7 @@ import { API } from "../config/api";
 
 export default function MakeFund() {
   const title = "Make Fund";
-  document.title = title + " - Hollyways";
+  document.title = title + " | Hollyways";
   const [preview, setPreview] = useState(null); //For image preview
   const [form, setForm] = useState({
     title: "",

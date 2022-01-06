@@ -15,6 +15,7 @@ import { io } from "socket.io-client";
 // initial variable outside socket
 let socket;
 export default function LiveChat() {
+  document.title = "Live Chat | Hollyways";
   const [contact, setContact] = useState(null);
   const [contacts, setContacts] = useState([]);
   // create messages state
@@ -55,9 +56,15 @@ export default function LiveChat() {
   const loadContacts = () => {
     socket.emit("load contacts");
     socket.on("contacts", (data) => {
-      const dataContacts = data.map((item) => ({
+      let dataContacts = data.filter((item) => item.id !== state.user.id);
+      dataContacts = dataContacts.map((item) => ({
         ...item,
-        message: item.senderMessage.length > 0 ? item.senderMessage[item.senderMessage.length - 1].message : "Click here to start message",
+        message:
+          item.senderMessage.length > 0
+            ? item.senderMessage[item.senderMessage.length - 1].createdAt > item.recipientMessage[item.recipientMessage.length - 1].createdAt
+              ? item.senderMessage[item.senderMessage.length - 1].message
+              : item.recipientMessage[item.recipientMessage.length - 1].message
+            : "Click here to start message",
       }));
       setContacts(dataContacts);
     });

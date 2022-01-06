@@ -12,7 +12,7 @@ export default function Chat({ contact, user, messages, sendMessage }) {
             {messages.map((item, index) => (
               <div key={index}>
                 <div className={`d-flex py-1 ${item.idSender === user.id ? "justify-content-end" : "justify-content-start"}`}>
-                  {item.idSender !== user.id && <img src={contact.profile?.image || default_profile} className="rounded-circle me-2 img-chat" alt="bubble avatar" />}
+                  {item.idSender !== user.id && <img src={default_profile} className="rounded-circle me-2 img-chat" alt="bubble avatar" />}
                   <div className={item.idSender === user.id ? "chat-me" : "chat-other"}>{item.message}</div>
                 </div>
               </div>

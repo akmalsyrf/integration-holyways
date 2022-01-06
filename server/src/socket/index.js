@@ -32,14 +32,14 @@ const socketIo = (io) => {
               model: chat,
               as: "recipientMessage",
               attributes: {
-                exclude: ["createdAt", "updatedAt", "idRecipient", "idSender"],
+                exclude: ["updatedAt", "idRecipient", "idSender"],
               },
             },
             {
               model: chat,
               as: "senderMessage",
               attributes: {
-                exclude: ["createdAt", "updatedAt", "idRecipient", "idSender"],
+                exclude: ["updatedAt", "idSender"],
               },
             },
           ],
@@ -47,7 +47,22 @@ const socketIo = (io) => {
             exclude: ["createdAt", "updatedAt", "password"],
           },
         });
+
         contacts = JSON.parse(JSON.stringify(contacts));
+        contacts = contacts.map((item) => ({
+          ...item,
+          senderMessage: "",
+          // item.senderMessage.map((message) => {
+          //   console.log(message.idRecipient == socket.handshake.query.id);
+          //   if (message.idRecipient == socket.handshake.query.id) {
+          //     // console.log(message);
+          //     return message;
+          //   } else {
+          //     // console.log(message);
+          //     return "";
+          //   }
+          // }),
+        }));
 
         socket.emit("contacts", contacts);
       } catch (err) {
@@ -60,7 +75,7 @@ const socketIo = (io) => {
       try {
         const token = socket.handshake.auth.token;
 
-        const tokenKey = process.env.TOKEN_KEY;
+        const tokenKey = process.env.TOKEN_API;
         const verified = jwt.verify(token, tokenKey);
 
         const idRecipient = payload; // catch recipient id sent from client
@@ -108,7 +123,7 @@ const socketIo = (io) => {
       try {
         const token = socket.handshake.auth.token;
 
-        const tokenKey = process.env.TOKEN_KEY;
+        const tokenKey = process.env.TOKEN_API;
         const verified = jwt.verify(token, tokenKey);
 
         const idSender = verified.id; //id user

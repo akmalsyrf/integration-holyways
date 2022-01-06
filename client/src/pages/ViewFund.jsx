@@ -6,7 +6,7 @@ import DonationApproved from "../components/DetailDonate-ViewFund/DonationApprov
 
 export default function ViewFund() {
   const title = "View Fund";
-  document.title = title + " - Hollyways";
+  document.title = title + " | Hollyways";
   //params
   const params = useParams();
 
