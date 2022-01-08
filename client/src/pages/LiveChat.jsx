@@ -56,17 +56,27 @@ export default function LiveChat() {
   const loadContacts = () => {
     socket.emit("load contacts");
     socket.on("contacts", (data) => {
+      const cutMessage = (str) => {
+        if (str.length > 75) {
+          return (str = str.substring(0, 74) + "...");
+        } else {
+          return str;
+        }
+      };
       let dataContacts = data.filter((item) => item.id !== state.user.id);
       dataContacts = dataContacts.map((item) => ({
         ...item,
-        message:
+        message:/*
           item.senderMessage.length > 0
+          // ? item.senderMessage[item.senderMessage.length - 1] !== "" || item.recipientMessage[item.senderMessage.length - 1] !== ""
             ? item.senderMessage[item.senderMessage.length - 1].createdAt > item.recipientMessage[item.recipientMessage.length - 1].createdAt
-              ? item.senderMessage[item.senderMessage.length - 1].message
+              ?  cutMessage(item.senderMessage[item.senderMessage.length - 1].message) 
               : item.recipientMessage[item.recipientMessage.length - 1].message
-            : "Click here to start message",
+            // : "Click here to start message"
+          : */ "Click here to start message"
       }));
       setContacts(dataContacts);
+      console.log(contacts);
     });
   };
 
@@ -77,10 +87,11 @@ export default function LiveChat() {
     socket.emit("load messages", data.id);
   };
 
-  const loadMessages = (value) => {
+  const loadMessages = () => {
     // define listener on event "messages"
     socket.on("messages", async (data) => {
       // get data messages
+      setMessages([])
       if (data.length > 0) {
         const dataMessages = data.map((item) => ({
           idSender: item.sender.id,

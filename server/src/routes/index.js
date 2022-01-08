@@ -12,8 +12,9 @@ router.post("/register", register);
 router.get("/check-auth", auth, checkAuth);
 
 //user
-const { getAllUsers, deleteUser } = require("../controllers/user");
+const { getAllUsers, editUser, deleteUser } = require("../controllers/user");
 router.get("/users", getAllUsers);
+router.patch("/user/:id", editUser);
 router.delete("/user/:id", deleteUser);
 
 // fund

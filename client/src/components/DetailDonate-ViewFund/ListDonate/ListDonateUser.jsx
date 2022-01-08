@@ -51,7 +51,7 @@ export default function ListDonateUser(props) {
           <div className="p-3 col-12 my-3" style={{ backgroundColor: "white" }} key={props.i}>
             <h4 className="fw-bold">{props.userName}</h4>
             <p>
-              <span className="fw-bold">Saturday</span>, 12 April 2021
+              <span className="fw-bold">{props.day}</span>, {props.date} {props.month} {props.year}
             </p>
             <p className="text-danger fw-bold">Total : {Rupiah(props.amount)}</p>
           </div>
@@ -62,7 +62,7 @@ export default function ListDonateUser(props) {
             <div className="col-11">
               <h4 className="fw-bold">{props.userName}</h4>
               <p>
-                <span className="fw-bold">Saturday</span>, 12 April 2021
+              <span className="fw-bold">{props.day}</span>, {props.date} {props.month} {props.year}
               </p>
               <p className="text-danger fw-bold">Total : {Rupiah(props.amount)}</p>
             </div>

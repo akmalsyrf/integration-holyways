@@ -6,11 +6,11 @@
 }
 .chat-me {
   position: relative;
-  background: #adadad;
+  background: #ff7f7f;
   border-radius: 5px;
-  padding: 10px;
+  padding: 20px;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 25px;
   line-height: 22px;
   max-width: 400px;
 }
@@ -21,7 +21,7 @@
   top: 8px;
   right: -15px;
   border-top: 15px solid transparent;
-  border-left: 20px solid #adadad;
+  border-left: 20px solid #ff7f7f;
   border-bottom: 15px solid transparent;
 }
 .chat-other {
@@ -30,9 +30,9 @@
   color: white;
   border-radius: 5px;
   margin-left: 10px;
-  padding: 10px;
+  padding: 20px;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 25px;
   line-height: 22px;
   max-width: 400px;
 }
@@ -48,8 +48,8 @@
 }
 
 .img-chat {
-  width: 40px !important;
-  height: 40px !important;
+  width: 50px !important;
+  height: 50px !important;
   object-fit: cover !important;
 }
 .text-contact-chat {

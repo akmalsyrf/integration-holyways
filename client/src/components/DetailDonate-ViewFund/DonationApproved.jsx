@@ -28,6 +28,13 @@ export default function DonationApproved(props) {
             {usersDonate.map((donate, i) => {
               const fundId = props.params.id;
               if (donate.status == "success") {
+                const createdAt = new Date(donate.createdAt)
+                const dateCreate = createdAt.toDateString()
+                const detail = dateCreate.split(' ')
+                const day= detail[0]
+                const month =detail[1]
+                const date = detail[2]
+                const year = detail[3]
                 const ListProps = {
                   i,
                   userName: donate.fullname,
@@ -35,6 +42,7 @@ export default function DonationApproved(props) {
                   usersDonateId: donate.id,
                   fundId,
                   proofAttachment: donate.proofAttachment,
+                  day, month, year, date
                 };
                 return (
                   <>
@@ -50,6 +58,13 @@ export default function DonationApproved(props) {
             {usersDonate.map((donate, i) => {
               const fundId = props.params.id;
               if (donate.status == "pending") {
+                const createdAt = new Date(donate.createdAt)
+                const dateCreate = createdAt.toDateString()
+                const detail = dateCreate.split(' ')
+                const day= detail[0]
+                const month =detail[1]
+                const date = detail[2]
+                const year = detail[3]
                 const ListProps = {
                   i,
                   userName: donate.fullname,
@@ -57,6 +72,7 @@ export default function DonationApproved(props) {
                   usersDonateId: donate.id,
                   fundId,
                   proofAttachment: donate.proofAttachment,
+                  day, month, year, date
                 };
                 return (
                   <>

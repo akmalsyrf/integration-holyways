@@ -32,7 +32,7 @@ const socketIo = (io) => {
               model: chat,
               as: "recipientMessage",
               attributes: {
-                exclude: ["updatedAt", "idRecipient", "idSender"],
+                exclude: ["updatedAt", "idRecipient",],
               },
             },
             {
@@ -49,20 +49,30 @@ const socketIo = (io) => {
         });
 
         contacts = JSON.parse(JSON.stringify(contacts));
-        contacts = contacts.map((item) => ({
-          ...item,
-          senderMessage: "",
-          // item.senderMessage.map((message) => {
-          //   console.log(message.idRecipient == socket.handshake.query.id);
+        // contacts = contacts.map((item)=> ({
+        //   ...item,
+          // senderMessage: item.senderMessage.map((message) => {
+          //   // console.log(message.idRecipient == socket.handshake.query.id);
           //   if (message.idRecipient == socket.handshake.query.id) {
-          //     // console.log(message);
-          //     return message;
+          //     console.log(message);
+          //     return message
           //   } else {
           //     // console.log(message);
-          //     return "";
+          //     return ""
           //   }
           // }),
-        }));
+          // recipientMessage: item.recipientMessage.map((message) => {
+          //   // console.log(message.idSender == socket.handshake.query.id);
+          //   if (message.idSender == socket.handshake.query.id) {
+          //     // console.log(message);
+          //     return message
+          //   } else {
+          //     // console.log(message);
+          //     return ""
+          //   }
+          // })
+        // }))
+        console.log(contacts[0]);
 
         socket.emit("contacts", contacts);
       } catch (err) {

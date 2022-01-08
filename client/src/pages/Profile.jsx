@@ -32,7 +32,7 @@ export default function Profile() {
           <h3 className="mb-4 fw-bold">My Profile</h3>
           <div className="d-flex justify-content-start">
             <div className="col-4">
-              <img src={ProfilePic} alt="profile" width="180px" className="rounded" />
+              <img src={process.env.REACT_APP_FILE_PATH || ProfilePic} alt="profile" width="180px" className="rounded" />
             </div>
             <div className="col-8">
               <div className="info">

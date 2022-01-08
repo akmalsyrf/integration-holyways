@@ -18,18 +18,18 @@
 }
 
 .contact:hover {
-  background-color: #acacac;
+  background-color: #e2e1e1;
   transition: 0.5s;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .contact:active {
-  background-color: #acacac;
+  background-color: #c7c7c7;
   transition: 0.3s;
 }
 
 .contact-active {
-  background-color: #acacac;
+  background-color: #c7c7c7;
   border-radius: 5px;
 }

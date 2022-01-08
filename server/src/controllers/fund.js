@@ -265,7 +265,7 @@ exports.getUserDonateByFund = async (req, res) => {
   try {
     const data = await payment.findAll({
       where: { idFund: fundId },
-      attributes: { exclude: ["createdAt", "updatedAt"] },
+      attributes: { exclude: [ "updatedAt"] },
     });
     res.status(200).send({
       status: "success",
