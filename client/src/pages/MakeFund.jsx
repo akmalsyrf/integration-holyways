@@ -12,6 +12,7 @@ export default function MakeFund() {
     title: "",
     image: "",
     goal: "",
+    deadline:"",
     description: "",
   });
 
@@ -59,6 +60,7 @@ export default function MakeFund() {
       console.log(error);
     }
   };
+  console.log(form);
   return (
     <>
       <div className="container-fluid vh-100 bg-light px-5 py-5">

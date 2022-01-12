@@ -63,7 +63,7 @@ export default function Profile() {
                     <p>Saturday, 12 April 2021</p>
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold text-danger">Total : {total}</p>
-                      {fund.usersDonate[0].status === "success" ? <div className="btn btn-light text-success fw-bold px-5">Finished</div> : <div className="btn btn-light text-danger fw-bold px-5">Pending</div>}
+                      {fund.usersDonate[i].status === "success" ? <div className="btn btn-light text-success fw-bold px-5">Finished</div> : <div className="btn btn-light text-danger fw-bold px-5">Pending</div>}
                     </div>
                   </div>
                 );
