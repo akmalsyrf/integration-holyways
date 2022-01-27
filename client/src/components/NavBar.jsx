@@ -6,7 +6,7 @@ import { UserContext } from "../context/UserContext";
 import Icon from "../assets/img/Icon.png";
 import ConversationIcon from "../assets/img/conversation.png";
 
-import ConditionalNavbar from "../context/ConditionalNavbar/ConditionalNavbar";
+import ConditionalNavbar from "./ConditionalNavbar/ConditionalNavbar";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 

@@ -50,7 +50,7 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        {/* history */}
+        {/* history donation */}
         <div className="col-4">
           <h3 className="me-5 fw-bold mb-4">History Donation</h3>
           {funds.map((fund) => {
