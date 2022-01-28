@@ -56,11 +56,23 @@ export default function Profile() {
           {funds.map((fund) => {
             for (let i = 0; i < fund.usersDonate.length; i++) {
               if (state.user.id === Number(fund.usersDonate[i].idUser)) {
+                // make day, date, month, and year
+                const updatedAt = new Date(fund.usersDonate[i].updatedAt);
+                const dateUpdate = updatedAt.toDateString();
+                const detail = dateUpdate.split(" ");
+                const day = detail[0];
+                const month = detail[1];
+                const date = detail[2];
+                const year = detail[3];
+
+                //donate amount
                 const total = Rupiah(fund.usersDonate[i].donateAmount);
                 return (
                   <div className="px-3 py-4 mb-2" style={{ backgroundColor: "white", width: "580px" }} key={fund.id}>
                     <h5>{fund.title}</h5>
-                    <p>Saturday, 12 April 2021</p>
+                    <p>
+                      {day}, {date} {month} {year}
+                    </p>
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold text-danger">Total : {total}</p>
                       {fund.usersDonate[i].status === "success" ? <div className="btn btn-light text-success fw-bold px-5">Finished</div> : <div className="btn btn-light text-danger fw-bold px-5">Pending</div>}

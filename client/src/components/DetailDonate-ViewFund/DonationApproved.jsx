@@ -24,7 +24,7 @@ export default function DonationApproved(props) {
       <div className="py-3">
         {props.isApproved ? (
           <>
-            <h2 className="mb-2 fw-bold">List Donation (200)</h2>
+            <h2 className="mb-2 fw-bold">List Donation</h2>
             {usersDonate.map((donate, i) => {
               const fundId = props.params.id;
               if (donate.status == "success") {
@@ -54,7 +54,7 @@ export default function DonationApproved(props) {
           </>
         ) : (
           <>
-            <h2 className="mb-2 fw-bold">Donation has not been approved (10)</h2>
+            <h2 className="mb-2 fw-bold">Donation has not been approved</h2>
             {usersDonate.map((donate, i) => {
               const fundId = props.params.id;
               if (donate.status == "pending") {

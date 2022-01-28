@@ -15,7 +15,7 @@ exports.getAllFunds = async (req, res) => {
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     const usersDonate = await payment.findAll({
-      attributes: { exclude: ["createdAt", "updatedAt"] },
+      attributes: { exclude: ["createdAt"] },
     });
 
     const data = dataFund.map((fund) => {
@@ -265,7 +265,7 @@ exports.getUserDonateByFund = async (req, res) => {
   try {
     const data = await payment.findAll({
       where: { idFund: fundId },
-      attributes: { exclude: [ "updatedAt"] },
+      attributes: { exclude: ["updatedAt"] },
     });
     res.status(200).send({
       status: "success",

@@ -62,8 +62,8 @@ export default function LandingPage() {
 
         {/* card donate */}
         <div id="donate" className="py-5 bg-light">
-          <h1 className="text-center text-danger fw-bold me-5">Donate Now</h1>
-          <div className="d-flex justify-content-start container flex-wrap pe-5">
+          <h1 className="text-center text-danger fw-bold ms-4">Donate Now</h1>
+          <div className="d-flex justify-content-start container flex-wrap ps-5">
             {funds.map((fund, i) => {
               const progress = (Number(fund.donationObtained) / Number(fund.goal)) * 100;
               const props = {

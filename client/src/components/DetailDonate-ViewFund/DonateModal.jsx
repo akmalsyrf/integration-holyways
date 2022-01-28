@@ -62,7 +62,7 @@ export default function DonateModal(props) {
       <Modal show={props.showDonateModal} onHide={props.handleCloseDonateModal} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
         <Form className="py-4 px-2" onSubmit={handleSubmit}>
           <Modal.Body>
-            <Form.Control type="number" placeholder="Nominal Donation" name="donateAmount" onChange={handleChange} />
+            <Form.Control type="number" placeholder="Nominal Donation (Rp.)" name="donateAmount" onChange={handleChange} />
             {preview && (
               <div>
                 <img

@@ -89,12 +89,12 @@ export default function MakeFund() {
             </label>
             <input type="file" id="upload" name="image" hidden onChange={handleChange} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <label htmlFor="deadline" className="fs-5 fw-bold mb-2">
               Deadline
             </label>
             <input type="date" className="form-control" id="deadline" name="deadline" onChange={handleChange} />
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <input type="number" className="form-control" placeholder="Goals Donation" name="goal" onChange={handleChange} />
           </Form.Group>

@@ -28,12 +28,6 @@ export default function DonationInfo(props) {
     getFund();
   }, []);
 
-  // const [usersDonateLength, setUsersDonateLength] = useState(null);
-  // useEffect(() => {
-  //   setUsersDonateLength(null);
-  //   setUsersDonateLength(fund.usersDonate.length);
-  // }, []);
-
   // get usersDonate length
   const [usersDonateLength, setUsersDonateLength] = useState(0);
   const getUsersDonateLength = async () => {
