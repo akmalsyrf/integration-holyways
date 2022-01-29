@@ -43,7 +43,7 @@ exports.register = async (req, res) => {
     });
 
     const dataToken = {
-      id:newUser.id,
+      id: newUser.id,
     };
     const token = jwt.sign(dataToken, process.env.TOKEN_API);
     res.send({

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -10,9 +10,9 @@ import { API } from "../../config/api";
 export default function DonateModal(props) {
   const [preview, setPreview] = useState(null); //For image preview
   const [form, setForm] = useState({
-    image: "",
     donateAmount: "",
   });
+  console.log(form);
 
   // Handle change data on form
   const handleChange = (e) => {
@@ -28,6 +28,22 @@ export default function DonateModal(props) {
     }
   };
 
+  // Create config Snap payment page with useEffect here ...
+  useEffect(() => {
+    const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const myMidtransClientKey = "SB-Mid-client-GjKB0rHnannm7Bdp";
+
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransScriptUrl;
+
+    scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+
+    document.body.appendChild(scriptTag);
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
+  }, []);
+
   const history = useHistory();
   const handleSubmit = async (e) => {
     try {
@@ -35,28 +51,44 @@ export default function DonateModal(props) {
 
       const config = {
         headers: {
-          "Content-type": "multipart/form-data",
+          "Content-type": "application/json",
         },
       };
 
-      const formData = new FormData();
-      formData.set("proofAttachment", form.image[0], form.image.name);
-      formData.set("donateAmount", form.donateAmount);
-      formData.set("status", "pending");
+      const body = JSON.stringify(form);
 
-      // //check formData entries
-      // for (let key of formData.entries()) {
-      //   console.log(key[0] + ", " + typeof key[1]);
-      // }
+      const response = await API.post(`/fund/${props.fundId}`, body, config);
+      // console.log(response.data);
 
-      const response = await API.post(`/fund/${props.fundId}`, formData, config);
-      console.log(response);
+      // Create variabel for store token payment from response here ...
+      const token = response.data.paymentResult.token;
 
-      history.push("/profile");
+      // Init Snap for display payment page with token here ...
+      window.snap.pay(token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          history.push("/profile");
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          history.push("/profile");
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          alert("you closed the popup without finishing the payment");
+        },
+      });
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <>
       <Modal show={props.showDonateModal} onHide={props.handleCloseDonateModal} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
@@ -77,14 +109,14 @@ export default function DonateModal(props) {
                 />
               </div>
             )}
-            <div className="d-flex justify-content-start my-3">
+            {/* <div className="d-flex justify-content-start my-3">
               <label htmlFor="upload" className="btn btn-danger">
                 Attach Payment
                 <img src={AttachPayment} alt="img" className="px-2" />
               </label>
               <input type="file" id="upload" hidden name="image" onChange={handleChange} />
               <p className="text-secondary ms-3">*transfers can be made to holyways accounts</p>
-            </div>
+            </div> */}
           </Modal.Body>
           <Modal.Footer>
             <Button type="submit" variant="danger" className="col-12" onClick={props.handleCloseDonateModal}>
